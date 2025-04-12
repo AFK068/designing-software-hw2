@@ -1,0 +1,552 @@
+openapi: 3.0.0
+info:
+  title: HseZoo API
+  version: 1.0.0
+  contact:
+    name: Ivan Gobets
+    url: https://github.com/AFK068
+
+paths:
+  /animals:
+    get:
+      summary: Get all animals
+      responses:
+        '200':
+          description: List of animals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnimalListResponse'
+        '400':
+          description: Bad request
+          constent:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  
+    post:
+      summary: Add a new animal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnimalInput'
+      responses:
+        '200':
+          description: Animal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /animals/{animalId}:
+    get:
+      summary: Get animal by ID
+      parameters:
+        - in: path
+          name: animalId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Animal details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+    delete:
+      summary: Delete an animal
+      parameters:
+        - in: path
+          name: animalId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Animal deleted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: Animal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /animals/{animalId}/move:
+    post:
+      summary: Move an animal to a new enclosure
+      parameters:
+        - in: path
+          name: animalId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveAnimalInput'
+      responses:
+        '200':
+          description: Animal moved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /enclosures:
+    get:
+      summary: Get all enclosures
+      responses:
+        '200':
+          description: List of enclosures
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnclosureListResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+    post:
+      summary: Add a new enclosure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnclosureInput'
+      responses:
+        '200':
+          description: Enclosure created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enclosure'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /enclosures/{enclosureId}:
+    get:
+      summary: Get enclosure by ID
+      parameters:
+        - in: path
+          name: enclosureId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Enclosure details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enclosure'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+    delete:
+      summary: Delete an enclosure
+      parameters:
+        - in: path
+          name: enclosureId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Enclosure deleted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: Enclosure not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /feeding-schedules:
+    get:
+      summary: Get all feeding schedules
+      responses:
+        '200':
+          description: List of feeding schedules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedingScheduleListResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+    post:
+      summary: Add a new feeding schedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedingScheduleInput'
+      responses:
+        '200':
+          description: Feeding schedule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedingSchedule'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /feeding-schedules/{scheduleId}:
+    get:
+      summary: Get feeding schedule by ID
+      parameters:
+        - in: path
+          name: scheduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Feeding schedule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedingSchedule'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+    delete:
+      summary: Delete a feeding schedule
+      parameters:
+        - in: path
+          name: scheduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Feeding schedule deleted
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: Feeding schedule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /statistics:
+    get:
+      summary: Get zoo statistics
+      responses:
+        '200':
+          description: Zoo statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZooStatistics'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+components:
+  schemas:
+    Animal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        enclosureId:
+          type: string
+          format: uuid
+        species:
+          type: string
+        name:
+          type: string
+        birthDate:
+          type: string
+          format: date-time
+        gender:
+          type: string
+          enum: [Male, Female]
+        favoriteFood:
+          type: string
+        status:
+          type: string
+          enum: [Healthy, Sick]
+      required:
+        - id
+        - enclosureId
+        - species
+        - name
+        - birthDate
+        - gender
+        - favoriteFood
+        - status
+
+    AnimalListResponse:
+      type: object
+      properties:
+        animals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animal'
+
+    AnimalInput:
+      type: object
+      properties:
+        enclosureId:
+          type: string
+          format: uuid
+        species:
+          type: string
+        name:
+          type: string
+        birthDate:
+          type: string
+          format: date-time
+        gender:
+          type: string
+          enum: [Male, Female]
+        favoriteFood:
+          type: string
+        status:
+          type: string
+          enum: [Healthy, Sick]
+      required:
+        - enclosureId
+        - species
+        - name
+        - birthDate
+        - gender
+        - favoriteFood
+        - status
+
+    MoveAnimalInput:
+      type: object
+      properties:
+        newEnclosureId:
+          type: string
+          format: uuid
+      required:
+        - newEnclosureId
+
+    TreatAnimalInput:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [treat]
+      required:
+        - operation
+
+    Enclosure:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        animals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animal'
+        type:
+          type: string
+        size:
+          type: integer
+        currentAnimals:
+          type: integer
+        maxCapacity:
+          type: integer
+      required:
+        - id
+        - type
+        - size
+        - currentAnimals
+        - maxCapacity
+
+    EnclosureListResponse:
+      type: object
+      properties:
+        enclosures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enclosure'
+
+    EnclosureInput:
+      type: object
+      properties:
+        type:
+          type: string
+        size:
+          type: integer
+        maxCapacity:
+          type: integer
+      required:
+        - type
+        - size
+        - maxCapacity
+
+    FeedingSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        animal:
+          $ref: '#/components/schemas/Animal'
+        feedingTime:
+          type: string
+          format: date-time
+        foodType:
+          type: string
+        completed:
+          type: boolean
+      required:
+        - id
+        - animal
+        - feedingTime
+        - foodType
+        - completed
+
+    FeedingScheduleListResponse:
+      type: object
+      properties:
+        schedules:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedingSchedule'
+
+    FeedingScheduleInput:
+      type: object
+      properties:
+        animalId:
+          type: string
+          format: uuid
+        feedingTime:
+          type: string
+          format: date-time
+        foodType:
+          type: string
+      required:
+        - animalId
+        - feedingTime
+        - foodType
+
+    UpdateFeedingTimeInput:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [update-time]
+        newTime:
+          type: string
+          format: date-time
+      required:
+        - operation
+        - newTime
+
+    MarkCompletedInput:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [mark-completed]
+      required:
+        - operation
+
+    ZooStatistics:
+      type: object
+      properties:
+        totalAnimals:
+          type: integer
+        totalEnclosures:
+          type: integer
+        freeEnclosures:
+          type: integer
+        feedingSchedulesCount:
+          type: integer
+      required:
+        - totalAnimals
+        - totalEnclosures
+        - freeEnclosures
+        - feedingSchedulesCount
+
+    ApiErrorResponse:
+      type: object
+      properties:
+        description:
+          type: string
+        code:
+          type: string
+        exceptionMessage:
+          type: string
