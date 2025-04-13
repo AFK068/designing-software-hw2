@@ -13,7 +13,7 @@ func MapToFeedingScheduleListResponse(schedules []*domain.FeedingSchedule) hsezo
 	for i, schedule := range schedules {
 		feedingScheduleResponses[i] = hsezootypes.FeedingSchedule{
 			Id:          types.UUID(schedule.ID),
-			Animal:      MapToTypesAnimal(schedule.Animal), // Преобразуем животное
+			Animal:      MapToTypesAnimal(schedule.Animal),
 			FeedingTime: schedule.FeedingTime,
 			FoodType:    string(schedule.FoodType),
 			Completed:   schedule.Completed,
